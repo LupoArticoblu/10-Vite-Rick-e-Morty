@@ -3,8 +3,7 @@
 @import '/node_modules/@fontsource/montserrat/700.css';
 
 body {
-  height: 100vh;
   font-family: $main-font;
   color: $primary-color;
-  background-image: linear-gradient(lighten($primary-color, 70%), lighten($primary-color, 50%));
+  background-image: linear-gradient(lighten($primary-color, 63%), lighten($primary-color, 40%));
 }

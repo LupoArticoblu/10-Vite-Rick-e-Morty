@@ -30,11 +30,14 @@ export default {
   },
   methods: {
     getChars() {
+      //ogni volta che parte la ricerca il load dev essere false
+      store.isLoad = false
       //siccome store è importato come elemento globale, posso accedervi senza this
       axios.get(store.apiUrl)
       .then((res) => {
         store.characters = res.data
-        console.log(store.characters);
+        //al termine della ricerca, il load è true
+        store.isLoad = true
       })
       .catch((err) => {
         console.log(err);
