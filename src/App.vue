@@ -2,9 +2,11 @@
     <AppHeader :title="'Rick & Morty'" />
     
     <main>
-      <AppSearch/>
+      <AppSearch @startSearch="getChars()" />
       <CharList/>
     </main>
+
+    <Results/>
 </template>
 
 <script>
@@ -14,6 +16,7 @@ import {store} from './data/store';
 import AppHeader from './components/AppHeader.vue';
 import AppSearch from './components/AppSearch.vue';
 import CharList from './components/CharList.vue';
+import Results from './components/Results.vue';
 export default {
   name: 'App',
   data() {
@@ -24,7 +27,8 @@ export default {
   components: {
     AppHeader,
     AppSearch,
-    CharList
+    CharList,
+    Results
   },
   mounted() {
     this.getChars();
@@ -50,6 +54,10 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+        store.isLoad = true;
+        store.characters = [];
+        store.charSearch = '';
+        store.statusSearch = '';
       })
     },
   },

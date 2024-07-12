@@ -14,7 +14,8 @@
         </select>
       </div>
       <div class="col-auto">
-        <button class="btn btn-primary">Search</button>
+        <!-- inseriamo un $emit al click che richiamerà la funzione 'startSearch' dal figlio verso il padre-->
+        <button @click="$emit('startSearch')" class="btn btn-primary">Search</button>
       </div>    
       <div class="col-auto">
         <button @click="reset()" class="btn btn-secondary">Reset</button>
@@ -37,6 +38,8 @@ export default {
     reset() {
       store.charSearch = '';
       store.statusSearch = '';
+      //al click del reset richiamiamo la funzione emit coi valori azzerati
+      this.$emit('startSearch')
     }
   }
 }

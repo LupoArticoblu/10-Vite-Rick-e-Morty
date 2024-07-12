@@ -2,7 +2,14 @@
 @import '/node_modules/bootstrap/scss/bootstrap.scss';
 @import '/node_modules/@fontsource/montserrat/700.css';
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
+  min-height: 100vh;
   font-family: $main-font;
   color: $primary-color;
   background-image: linear-gradient(lighten($primary-color, 63%), lighten($primary-color, 40%));
