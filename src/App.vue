@@ -1,5 +1,8 @@
 <template>
     <AppHeader :title="'Rick & Morty'" />
+    <button @click="getChars()" class="btn btn-primary">
+      Ricarica API
+    </button>
     <main>
       <AppSearch/>
       <CharList/>
