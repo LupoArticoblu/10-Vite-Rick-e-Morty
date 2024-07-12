@@ -17,7 +17,7 @@ export default {
   name: 'CharList',
   data() {
     return {
-      store
+      store,
     }
   },
   components: {

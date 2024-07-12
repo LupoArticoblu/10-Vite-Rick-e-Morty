@@ -1,8 +1,6 @@
 <template>
     <AppHeader :title="'Rick & Morty'" />
-    <button @click="getChars()" class="btn btn-primary">
-      Ricarica API
-    </button>
+    
     <main>
       <AppSearch/>
       <CharList/>
@@ -36,9 +34,17 @@ export default {
       //ogni volta che parte la ricerca il load dev essere false
       store.isLoad = false
       //siccome store è importato come elemento globale, posso accedervi senza this
-      axios.get(store.apiUrl)
+      
+      
+      //filtriamo la chiamata all'api per ottenere i risultati della nostra ricerca: ho 2 modi per farlo: 1) passare in 'axios.get' la stringa di ricerca,(store.apiUrl.'?name='+ store.charSearch) 2) passare in 'axios.get' un oggetto con la chiave 'params' con il valore di 'store.charSearch', la seconda è l'opzione migliore, sempre.
+      axios.get(store.apiUrl, {
+        params: {
+          name: store.charSearch,
+          status: store.statusSearch
+        }
+      })
       .then((res) => {
-        store.characters = res.data
+        store.characters = res.data.results
         //al termine della ricerca, il load è true
         store.isLoad = true
       })
@@ -47,6 +53,14 @@ export default {
       })
     },
   },
+  //watch ti permette di vedere i cambiamenti in corso e se il tuo componente in quel momento sia reattivo o meno
+  watch: {
+    //prende il valore nel v-model e ci fa una funzione passando 2 parametri (newVal, oldVal)
+  'store.charSearch': function(newVal, oldVal) {
+    // in console vediamo come si sostituisce oldVal con newVal
+    console.log('charSearch changed from', oldVal, 'to', newVal);
+    }
+  }
 }
 </script>
 

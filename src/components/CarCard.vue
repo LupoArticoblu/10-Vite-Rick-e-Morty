@@ -3,7 +3,7 @@
     <img :src="char.image" :alt="char.name">
     <h4>{{ char.name }}</h4>
     <p>{{ char.status }}</p>
-    <p>{{ char.type }}</p>
+    <p>{{ char.species }}</p>
   </div>
 </template>
 
