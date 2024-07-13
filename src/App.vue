@@ -1,11 +1,14 @@
 <template>
-    <AppHeader :title="'Rick & Morty'" />
+    <AppHeader :title="'Rick&Mortypedia '" />
     
     <main>
-      <AppSearch @startSearch="getChars()" />
+      <AppSearch @startSearch="startSearch()" />
       <CharList/>
     </main>
-
+    <div class="container py-3 text-center d-flex justify-content-around">
+      <button v-if="store.prev" class="btn btn-warning" @click="goToPage('prev')"><a href="#"><< precedente</a></button>
+      <button v-if="store.next" class="btn btn-warning" @click="goToPage('next')"><a href="#">successiva >></a></button>
+    </div>
     <Results/>
 </template>
 
@@ -34,6 +37,15 @@ export default {
     this.getChars();
   },
   methods: {
+    startSearch(){
+      store.apiUrlActive = store.apiUrl;
+      this.getChars();
+    },
+    goToPage(direction) {
+      //il metodo 'goToPage' è un metodo generico per andare alla pagina successiva o alla precedente, passando come parametro 'next' o 'prev'
+      store.apiUrlActive = store[direction];
+      this.getChars();
+    },
     getChars() {
       //ogni volta che parte la ricerca il load dev essere false
       store.isLoad = false
@@ -41,14 +53,26 @@ export default {
       
       
       //filtriamo la chiamata all'api per ottenere i risultati della nostra ricerca: ho 2 modi per farlo: 1) passare in 'axios.get' la stringa di ricerca,(store.apiUrl.'?name='+ store.charSearch) 2) passare in 'axios.get' un oggetto con la chiave 'params' con il valore di 'store.charSearch', la seconda è l'opzione migliore, sempre.
-      axios.get(store.apiUrl, {
+      axios.get(store.apiUrlActive, {
         params: {
           name: store.charSearch,
           status: store.statusSearch
         }
       })
       .then((res) => {
-        store.characters = res.data.results
+        store.characters = res.data.results;
+        //salvo le info per la paginazione
+        store.next = res.data.info.next;
+        store.prev = res.data.info.prev;
+        //solo alla prima chiamata API salvo gli status presenti
+        if (store.listStatus.length === 0) {
+          store.characters.forEach((char) => {
+            //se lo status non è presente lo pusho nella lista globale degli status
+           if (!store.listStatus.includes(char.status)) {
+            store.listStatus.push(char.status)
+           } 
+          })
+        }
         //al termine della ricerca, il load è true
         store.isLoad = true
       })
@@ -58,6 +82,9 @@ export default {
         store.characters = [];
         store.charSearch = '';
         store.statusSearch = '';
+        store.next = null;
+        store.prev = null;
+        store.listStatus = [];
       })
     },
   },

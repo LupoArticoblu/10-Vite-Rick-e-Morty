@@ -2,15 +2,13 @@
   <div class="container">
     <div class="row my-5 justify-content-center">
       <div class="col-auto">
-        <input  type="text" v-model="store.charSearch" placeholder="Cerca un personaggio" class="form-control">
+        <input  type="text" v-model="store.charSearch" placeholder="Cerca un personaggio" class="form-control" @keyup.enter="$emit('startSearch')">
       </div>  
       <div class="col-auto">
         <select class="form-select" v-model="store.statusSearch">
           <!-- anche se selected, senza il value corrispondente alla stringa di statusSearch, il v-model rimane vuoto-->
           <option value="" selected>Status</option>
-          <option value="alive">Alive</option>
-          <option value="dead">Dead</option>
-          <option value="unknown">Unknown</option>
+          <option v-for="(status, index) in store.listStatus" :key="index">{{ status }}</option>
         </select>
       </div>
       <div class="col-auto">
