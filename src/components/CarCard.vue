@@ -1,5 +1,5 @@
 <template>
-  <div class="certocard col-3">
+  <div class="certocard col-3" @click="showDetails">
     <img :src="char.image" :alt="char.name">
     <h4>{{ char.name }}</h4>
     <p>{{ char.status }}</p>
@@ -11,9 +11,15 @@
 export default {
   name: 'CarCard',
   props: {
-    char: Object
+    char: Object,
+  },
+  methods: {
+    showDetails() {
+      this.$emit('show-details', this.char);
+    }
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
